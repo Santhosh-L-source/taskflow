@@ -1,0 +1,15 @@
+# Git ignore sensitive files and build artifacts
+__pycache__/
+*.pyc
+*.pyo
+.env
+venv/
+.venv/
+*.egg-info/
+.pytest_cache/
+
+# Frontend
+node_modules/
+dist/
+.env.local
+.env.production
