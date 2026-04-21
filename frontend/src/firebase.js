@@ -1,4 +1,4 @@
-import { initializeApp } from 'firebase/app'
+import { initializeApp, getApps } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 import { getFirestore } from 'firebase/firestore'
 
@@ -11,7 +11,17 @@ const firebaseConfig = {
   appId:             import.meta.env.VITE_FIREBASE_APP_ID,
 }
 
-const app = initializeApp(firebaseConfig)
+// Flag so components can detect unconfigured state
+export const isFirebaseConfigured = Boolean(
+  firebaseConfig.apiKey && firebaseConfig.projectId && firebaseConfig.appId
+)
 
-export const auth = getAuth(app)
-export const db   = getFirestore(app)
+let app, auth, db
+
+if (isFirebaseConfigured) {
+  app  = getApps().length ? getApps()[0] : initializeApp(firebaseConfig)
+  auth = getAuth(app)
+  db   = getFirestore(app)
+}
+
+export { auth, db }
